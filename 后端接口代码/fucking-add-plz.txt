@@ -1,0 +1,33 @@
+import cloud from '@lafjs/cloud'
+
+export default async function (ctx: FunctionContext) {
+  const body = ctx.body;
+  const db = cloud.mongo.db;
+
+if(typeof body!=='object'||body===null){
+return{
+hao:false,
+message:"你不乘哦"
+}
+}
+  if (typeof body.value !== 'string' ) {
+    return {
+      hao: false,
+      message: "你不乘哦"
+    }
+  }
+  if (typeof body.isCompleted !== 'boolean') {
+    return {
+      hao: false,
+      message: "你不乘哦"
+    }
+  }
+const collection =db.collection('list');
+  const result = await collection.insertOne(body);
+
+  return {
+    hao: true,
+    data: result,
+
+  }
+}

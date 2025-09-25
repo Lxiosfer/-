@@ -1,0 +1,34 @@
+import cloud from '@lafjs/cloud';
+import { ObjectId } from 'mongodb';
+
+
+export default async function (ctx: FunctionContext) {
+  const db = cloud.mongo.db;
+  const id = ctx.body.id; 
+
+if(!id){
+  return{
+    hao:false,
+    message:":\ id required"
+  };
+}
+
+const collection =db.collection('list');
+const deleteResult = await collection.deleteOne({_id:new ObjectId(id)});
+
+if(deleteResult.deletedCount===1){
+return{
+  hao:true,
+  message:"ok!"
+};
+
+}
+else{
+  return{
+    hao:false,
+    message:"找不到or删过了"
+  };
+}
+
+
+}
